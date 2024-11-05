@@ -1,30 +1,37 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from '../axiosConfig';
 
-function CorreoForm({ onCorreoAdded }) {
-    const [correo, setCorreo] = useState('');
+const CorreoForm = ({ onCorreoAgregado }) => {
+    const [email, setEmail] = useState('');
 
-    const handleAgregarCorreo = async () => {
+    const handleAgregarCorreo = async (e) => {
+        e.preventDefault();
         try {
-            await axios.post('/api/mails', { correo });
-            onCorreoAdded(); 
-            setCorreo('');
+            await axios.post('/mails', { email });
+            onCorreoAgregado(); // Llama a la función para actualizar la lista
+            setEmail(''); // Limpia el campo de entrada
         } catch (error) {
             console.error('Error al agregar correo:', error);
         }
     };
 
     return (
-        <div>
+        <form onSubmit={handleAgregarCorreo}>
             <input
                 type="email"
-                value={correo}
-                onChange={(e) => setCorreo(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Ingrese la dirección de correo..."
+                required
             />
-            <button onClick={handleAgregarCorreo}>Agregar</button>
-        </div>
+            <button type="submit">Agregar</button>
+        </form>
     );
-}
+};
 
 export default CorreoForm;
+
+
+
+
+
