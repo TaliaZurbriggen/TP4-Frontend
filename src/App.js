@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './Components/Navbar.jsx';
 import CorreosPage from './Components/CorreosPage.jsx';
 import Home from './Components/Home.jsx'; 
-import Notificaciones from './Components/Notificaciones.jsx';
 import Historial from './Components/Historial.jsx';
 
 function App() {

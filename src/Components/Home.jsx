@@ -17,18 +17,26 @@ function Home() {
 
                 const data = await response.json();
                 const sortedData = data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-                const nuevasFechas = sortedData.map(item =>
+
+                // Filtramos cada 4 registros
+                const cada4Fechas = sortedData.filter((_, index) => index % 4 === 0).map(item =>
                     new Date(item.fecha).toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'short' })
                 );
-                const nuevasDistancias = sortedData.map(item =>
-                    Math.min(Math.round((item.distancia_promedio / 200) * 100), 100)
+                const cada4Distancias = sortedData.filter((_, index) => index % 4 === 0).map(item =>
+                    Math.min(Math.round((item.distancia_promedio / 32.7) * 100), 100)
                 );
 
-                setFechas(nuevasFechas);
-                setDistancias(nuevasDistancias);
+                // Seleccionamos los últimos 12
+                const fechasSeleccionadas = cada4Fechas.slice(-12);
+                const distanciasSeleccionadas = cada4Distancias.slice(-12);
 
-                const ultimoRegistro = nuevasDistancias[nuevasDistancias.length - 1];
-                setEstadoTacho(ultimoRegistro);
+                setFechas(fechasSeleccionadas);
+                setDistancias(distanciasSeleccionadas);
+
+                
+                if (distanciasSeleccionadas.length > 0) {
+                    setEstadoTacho(distanciasSeleccionadas[distanciasSeleccionadas.length - 1]);
+                }
             } catch (error) {
                 console.error('Error al obtener datos de la API:', error);
             }
@@ -100,3 +108,5 @@ function Home() {
 }
 
 export default Home;
+
+
