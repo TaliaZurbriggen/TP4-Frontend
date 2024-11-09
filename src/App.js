@@ -4,6 +4,7 @@ import Navbar from './Components/Navbar.jsx';
 import CorreosPage from './Components/CorreosPage.jsx';
 import Home from './Components/Home.jsx'; 
 import Notificaciones from './Components/Notificaciones.jsx';
+import Historial from './Components/Historial.jsx';
 
 function App() {
     const [actualizar, setActualizar] = useState(false);
@@ -18,7 +19,7 @@ function App() {
             <Routes>
                 <Route path="/correos" element={<CorreosPage onCorreoAgregado={handleCorreoAgregado} actualizar={actualizar} />} />
                 <Route path="/estado" element={<Home />} /> 
-                <Route path="/notificaciones" element={<Notificaciones />} />
+                <Route path="/historial" element={<Historial />} />
             </Routes>
         </Router>
     );
