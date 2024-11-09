@@ -16,7 +16,7 @@ const CorreoList = ({ actualizar }) => {
     const handleEliminarCorreo = async (id) => {
         try {
             await axios.delete(`/mails/${id}`);
-            fetchCorreos(); // Actualiza la lista después de eliminar
+            fetchCorreos();
         } catch (error) {
             console.error('Error al eliminar correo:', error);
         }
@@ -27,24 +27,35 @@ const CorreoList = ({ actualizar }) => {
     }, [actualizar]);
 
     return (
-        <div>
-            <h2>Lista de correos</h2>
-            <table>
-                <thead>
+        <div className="mt-4">
+            <h3 className="mb-3">Lista de Correos</h3>
+            <table className="table table-striped table-bordered shadow">
+                <thead className="table-dark">
                     <tr>
                         <th>Correo</th>
-                        
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {correos.map((correo) => (
-                        <tr key={correo.id}>
-                            <td>{correo.email}</td>
-                            
-                            <td><button onClick={() => handleEliminarCorreo(correo.id)}>Eliminar</button></td>
+                    {correos.length > 0 ? (
+                        correos.map((correo) => (
+                            <tr key={correo.id}>
+                                <td>{correo.email}</td>
+                                <td>
+                                    <button
+                                        className="btn btn-danger btn-sm"
+                                        onClick={() => handleEliminarCorreo(correo.id)}
+                                    >
+                                        Eliminar
+                                    </button>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="2" className="text-center">No hay correos disponibles</td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
             </table>
         </div>
@@ -52,6 +63,7 @@ const CorreoList = ({ actualizar }) => {
 };
 
 export default CorreoList;
+
 
 
 

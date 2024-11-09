@@ -4,6 +4,9 @@ import Navbar from './Components/Navbar.jsx';
 import CorreosPage from './Components/CorreosPage.jsx';
 import Home from './Components/Home.jsx'; 
 import Historial from './Components/Historial.jsx';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+
 
 function App() {
     const [actualizar, setActualizar] = useState(false);

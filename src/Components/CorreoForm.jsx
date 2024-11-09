@@ -8,23 +8,26 @@ const CorreoForm = ({ onCorreoAgregado }) => {
         e.preventDefault();
         try {
             await axios.post('/mails', { email });
-            onCorreoAgregado(); // Llama a la función para actualizar la lista
-            setEmail(''); // Limpia el campo de entrada
+            onCorreoAgregado();
+            setEmail('');
         } catch (error) {
             console.error('Error al agregar correo:', error);
         }
     };
 
     return (
-        <form onSubmit={handleAgregarCorreo}>
-            <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Ingrese la dirección de correo..."
-                required
-            />
-            <button type="submit">Agregar</button>
+        <form onSubmit={handleAgregarCorreo} className="mb-4">
+            <div className="input-group">
+                <input
+                    type="email"
+                    className="form-control"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Ingrese la dirección de correo..."
+                    required
+                />
+                <button type="submit" className="btn btn-primary ms-2">Agregar</button>
+            </div>
         </form>
     );
 };
