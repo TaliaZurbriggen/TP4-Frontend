@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 import '../App.css';
+
 function Home() {
     const [estadoTacho, setEstadoTacho] = useState(0);
     const [fechas, setFechas] = useState([]);
@@ -22,9 +23,13 @@ function Home() {
                 const cada4Fechas = sortedData.filter((_, index) => index % 4 === 0).map(item =>
                     new Date(item.fecha).toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'short' })
                 );
-                const cada4Distancias = sortedData.filter((_, index) => index % 4 === 0).map(item =>
-                    Math.min(Math.round((item.distancia_promedio / 32.7) * 100), 100)
-                );
+                const cada4Distancias = sortedData.filter((_, index) => index % 4 === 0).map(item => {
+                    if (item.distancia_promedio > 40) {
+                        return 100;  // Basurero lleno
+                    } else {
+                        return Math.min(Math.round((1 - item.distancia_promedio / 32.7) * 100), 100);
+                    }
+                });
 
                 // Seleccionamos los últimos 12
                 const fechasSeleccionadas = cada4Fechas.slice(-12);
@@ -33,7 +38,6 @@ function Home() {
                 setFechas(fechasSeleccionadas);
                 setDistancias(distanciasSeleccionadas);
 
-                
                 if (distanciasSeleccionadas.length > 0) {
                     setEstadoTacho(distanciasSeleccionadas[distanciasSeleccionadas.length - 1]);
                 }
@@ -43,7 +47,10 @@ function Home() {
         };
 
         fetchData();
-    }, []);
+        const interval = setInterval(fetchData, 60000); // Actualizar cada minuto
+
+        return () => clearInterval(interval); 
+    }, []); 
 
     const data = {
         labels: fechas,
@@ -108,5 +115,8 @@ function Home() {
 }
 
 export default Home;
+
+
+
 
 
