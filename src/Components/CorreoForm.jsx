@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
-import axios from '../axiosConfig';
+import { useCorreo } from '../contexts/CorreoContext';  
 
-const CorreoForm = ({ onCorreoAgregado }) => {
+const CorreoForm = () => {
     const [email, setEmail] = useState('');
+    const { agregarCorreo } = useCorreo();  
 
     const handleAgregarCorreo = async (e) => {
         e.preventDefault();
-        try {
-            await axios.post('/mails', { email });
-            onCorreoAgregado();
-            setEmail('');
-        } catch (error) {
-            console.error('Error al agregar correo:', error);
-        }
+        await agregarCorreo(email);  
+        setEmail('');  
     };
 
     return (
@@ -33,6 +29,7 @@ const CorreoForm = ({ onCorreoAgregado }) => {
 };
 
 export default CorreoForm;
+
 
 
 

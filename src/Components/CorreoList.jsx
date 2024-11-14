@@ -1,30 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import axios from '../axiosConfig';
+import React, { useEffect } from 'react';
+import { useCorreo } from '../contexts/CorreoContext';  // Importa el hook del contexto
 
-const CorreoList = ({ actualizar }) => {
-    const [correos, setCorreos] = useState([]);
-
-    const fetchCorreos = async () => {
-        try {
-            const response = await axios.get('/mails');
-            setCorreos(response.data);
-        } catch (error) {
-            console.error('Error al obtener correos:', error);
-        }
-    };
-
-    const handleEliminarCorreo = async (id) => {
-        try {
-            await axios.delete(`/mails/${id}`);
-            fetchCorreos();
-        } catch (error) {
-            console.error('Error al eliminar correo:', error);
-        }
-    };
+const CorreoList = () => {
+    const { correos, fetchCorreos, eliminarCorreo } = useCorreo();  // Obtén los correos y funciones
 
     useEffect(() => {
-        fetchCorreos();
-    }, [actualizar]);
+        fetchCorreos();  // Obtén los correos al montar el componente
+    }, [fetchCorreos]);  // Al estar memoizada, no se ejecutará infinitamente
 
     return (
         <div className="mt-4">
@@ -44,7 +26,7 @@ const CorreoList = ({ actualizar }) => {
                                 <td>
                                     <button
                                         className="btn btn-danger btn-sm"
-                                        onClick={() => handleEliminarCorreo(correo.id)}
+                                        onClick={() => eliminarCorreo(correo.id)}
                                     >
                                         Eliminar
                                     </button>
@@ -63,6 +45,9 @@ const CorreoList = ({ actualizar }) => {
 };
 
 export default CorreoList;
+
+
+
 
 
 
