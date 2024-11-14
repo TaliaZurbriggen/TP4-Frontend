@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { useCorreo } from '../contexts/CorreoContext';  // Importa el hook del contexto
+import { useCorreo } from '../contexts/CorreoContext';  
 
 const CorreoList = () => {
-    const { correos, fetchCorreos, eliminarCorreo } = useCorreo();  // Obtén los correos y funciones
+    const { correos, fetchCorreos, eliminarCorreo } = useCorreo();  
 
     useEffect(() => {
-        fetchCorreos();  // Obtén los correos al montar el componente
-    }, [fetchCorreos]);  // Al estar memoizada, no se ejecutará infinitamente
+        fetchCorreos();  
+    }, [fetchCorreos]);  
 
     return (
         <div className="mt-4">
