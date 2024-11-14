@@ -19,21 +19,17 @@ function Home() {
                 const data = await response.json();
                 const sortedData = data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
-                // Filtramos cada 4 registros
-                const cada4Fechas = sortedData.filter((_, index) => index % 4 === 0).map(item =>
+                // Seleccionamos directamente los últimos 12 registros
+                const fechasSeleccionadas = sortedData.slice(-12).map(item =>
                     new Date(item.fecha).toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'short' })
                 );
-                const cada4Distancias = sortedData.filter((_, index) => index % 4 === 0).map(item => {
+                const distanciasSeleccionadas = sortedData.slice(-12).map(item => {
                     if (item.distancia_promedio > 40) {
                         return 100;  // Basurero lleno
                     } else {
-                        return Math.min(Math.round((1 - item.distancia_promedio / 32.7) * 100), 100);
+                        return Math.min(Math.round((1 - item.distancia_promedio / 40) * 100), 100);
                     }
                 });
-
-                // Seleccionamos los últimos 12
-                const fechasSeleccionadas = cada4Fechas.slice(-12);
-                const distanciasSeleccionadas = cada4Distancias.slice(-12);
 
                 setFechas(fechasSeleccionadas);
                 setDistancias(distanciasSeleccionadas);
@@ -47,7 +43,7 @@ function Home() {
         };
 
         fetchData();
-        const interval = setInterval(fetchData, 60000); // Actualizar cada minuto
+        const interval = setInterval(fetchData, 30000);
 
         return () => clearInterval(interval); 
     }, []); 
